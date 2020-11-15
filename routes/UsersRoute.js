@@ -1,9 +1,19 @@
-var express = require('express');
-var router = express.Router();
+import express from "express";
+import UserService from "../services/UserService";
+import checkAuthorization from "../middlewares/Authorization";
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const router = express.Router();
 
-module.exports = router;
+router.get("/", UserService.findAll);
+
+router.get("/email/:email", UserService.findByEmail);
+
+router.get("/id/:id", UserService.findById);
+
+router.post("/sign-up", UserService.signUp);
+
+router.post("/sign-in", UserService.signIn);
+
+router.delete("/:id", checkAuthorization, UserService.deleteById);
+
+export default router;
