@@ -4,16 +4,16 @@ export default {
 
   findAll: async (request, response) => {
     await User.find()
-      .select("username, email")
+      .select("userName")
       .exec()
       .then(result => response.status(200).send(result))
       .catch(error => response.status(500).send({ message: "INTERNAL SERVER ERROR", error: error }));
   },
 
-  findByEmail: async (request, response) => {
+  findByUserName: async (request, response) => {
     await User.findOne()
-      .byEmail(request.params.email)
-      .select("username, email")
+      .byUserName(request.params.userName)
+      .select("userName")
       .exec()
       .then(result => {
         if (result) {
@@ -28,24 +28,31 @@ export default {
   findById: async (request, response) => {
     await User.findOne()
       .byId(request.params.id)
-      .select("username, email")
+      .select("userName")
       .exec()
-      .then(result => response.status(200).send(result))
+      .then(result => {
+        if (result) {
+          return response.status(200).send(result);
+        } else {
+          return response.status(404).send({ message: "NOT FOUND" });
+        }
+      })
       .catch(error => response.status(404).send({ message: "NOT FOUND", error: error }));
   },
 
   signUp: async (request, response) => {
     const { body } = request;
-    const { username, password, email } = body;
+    const { userName, password } = body;
 
-    const newUser = new User({ username, password, email: email.toLowerCase() });
+    console.log(userName, password);
+
+    const newUser = new User({ userName, password: User.generateHash(password) });
 
     await User.create(newUser)
-      .exec()
       .then(result => response.status(201).send(result))
       .catch(error => {
         if (error.code === 11000) {
-          return response.status(409).send({ message: "EMAIL ALREADY EXISTS", error: error });
+          return response.status(409).send({ message: "USERNAME ALREADY EXISTS", error: error });
         } else {
           return response.status(500).send({ message: "INTERNAL SERVER ERROR", error: error });
         }
@@ -56,13 +63,15 @@ export default {
     const { body } = request;
 
     await User.findOne()
-      .byEmail(body.email)
+      .byUserName(body.userName)
       .exec()
       .then(userFromDatabase => {
+        if (!userFromDatabase) return response.status(404).send({ message: "INVALID USERNAME AND PASSWORD" });
+
         if (userFromDatabase.validatePassword(body.password)) {
           return response.status(200).send({ message: "LOGGED IN", token: userFromDatabase.getAuthToken() });
         } else {
-          return response.status(401).send({ message: "INVALID EMAIL AND PASSWORD" });
+          return response.status(401).send({ message: "INVALID USERNAME AND PASSWORD" });
         }
       })
       .catch(error => response.status(500).send({ message: "INTERNAL SERVER ERROR", error: error }));

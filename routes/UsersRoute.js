@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/", UserService.findAll);
 
-router.get("/email/:email", UserService.findByEmail);
+router.get("/userName/:userName", UserService.findByUserName);
 
 router.get("/id/:id", UserService.findById);
 
