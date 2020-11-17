@@ -16,8 +16,13 @@ const UserSchema = new mongoose.Schema({
   },
   followedTopics: {
     type: Array,
-    default: [],
-    required: false
+    required: false,
+    default: []
+  },
+  registeredEvents: {
+    type: Array,
+    required: false,
+    default: []
   }
 });
 
