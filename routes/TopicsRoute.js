@@ -1,0 +1,16 @@
+import TopicService from "../services/TopicService";
+import express from "express";
+
+const router = express.Router();
+
+router.get("/", TopicService.findAll);
+
+router.get("/id/:id", TopicService.findById);
+
+router.get("/name/:topicName", TopicService.findByTopicName);
+
+router.post("/id", TopicService.findAllByIds);
+
+router.post("/", TopicService.createTopic);
+
+export default router;
