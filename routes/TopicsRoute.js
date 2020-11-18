@@ -9,6 +9,8 @@ router.get("/id/:id", TopicService.findById);
 
 router.get("/name/:topicName", TopicService.findByTopicName);
 
+router.get("/user/:createdUserId", TopicService.findByCreatedUserId);
+
 router.post("/id", TopicService.findAllByIds);
 
 router.post("/", TopicService.createTopic);

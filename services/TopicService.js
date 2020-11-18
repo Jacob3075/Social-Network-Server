@@ -59,9 +59,9 @@ export default {
   },
 
   createTopic: async (request, response) => {
-    const { topicName, description } = request.body;
+    const { topicName, description, createdUserId } = request.body;
 
-    const newTopic = new Topic({ topicName, description });
+    const newTopic = new Topic({ topicName, description, createdUserId });
 
     await Topic.create(newTopic)
       .then(result => response.status(201).send(result))
