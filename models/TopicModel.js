@@ -28,6 +28,7 @@ TopicSchema.query.byCreatedUserId = function(userId) {
 TopicSchema.query.byIds = function(ids) {
   return this.find().where("_id").in(ids);
 };
+
 TopicSchema.query.byTopicName = function(topicName) {
   return this.findOne({ topicName: topicName });
 };
