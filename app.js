@@ -4,9 +4,11 @@ import logger from "morgan";
 import usersRouter from "./routes/UsersRoute";
 import topicsRouter from "./routes/TopicsRoute";
 import cors from "cors";
-import "./DataBaseConnection"
+import { connectToDatabase } from "./DataBaseConnection";
+
 const app = express();
 
+connectToDatabase();
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
