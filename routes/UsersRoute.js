@@ -10,10 +10,14 @@ router.get("/userName/:userName", UserService.findByUserName);
 
 router.get("/id/:id", UserService.findById);
 
-
 router.post("/sign-up", UserService.signUp);
 
 router.post("/sign-in", UserService.signIn);
+
+// TODO: AND AUTH MIDDLEWARE
+router.post("/follow-topic", UserService.addNewFollowedTopic);
+
+router.post("/register-event", UserService.addNewRegisteredEvent);
 
 router.delete("/:id", checkAuthorization, UserService.deleteById);
 

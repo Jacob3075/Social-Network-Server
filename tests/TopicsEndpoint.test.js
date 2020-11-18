@@ -80,7 +80,6 @@ describe("Testing Topics Endpoints", () => {
       done();
     });
 
-
     it("Should get topics by createdUserId", async done => {
       const createdUserId = "5fb1fe18120bbf113438078c";
       const response = await request.get("/topics/user/" + createdUserId);
@@ -127,7 +126,6 @@ describe("Testing Topics Endpoints", () => {
       expect(response.body).toHaveProperty("error");
       expect(response.body).toHaveProperty("message");
 
-
       done();
     });
 
@@ -140,7 +138,6 @@ describe("Testing Topics Endpoints", () => {
       expect(response.statusCode).toBe(409);
       expect(response.body).toHaveProperty("error");
       expect(response.body).toHaveProperty("message", "TOPIC ALREADY EXISTS");
-
 
       done();
     });

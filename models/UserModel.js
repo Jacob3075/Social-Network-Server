@@ -35,11 +35,24 @@ UserSchema.methods.validatePassword = function(password) {
 UserSchema.methods.getAuthToken = function() {
   return jwt.sign({
       id: this._id,
-      email: this.email,
       userName: this.userName
     },
     SECRET_KEY,
     { expiresIn: "3h" }
+  );
+};
+
+UserSchema.query.updateFollowedTopics = function(id, topicId) {
+  return this.findOneAndUpdate(
+    { _id: id },
+    { $addToSet: { followedTopics: topicId } }
+  );
+};
+
+UserSchema.query.updateRegisteredEvents = function(id, eventId) {
+  return this.findOneAndUpdate(
+    { _id: id },
+    { $addToSet: { registeredEvents: eventId } }
   );
 };
 
