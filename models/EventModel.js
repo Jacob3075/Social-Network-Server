@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const PostSchema = mongoose.Schema({
+const EventSchema = mongoose.Schema({
   userId: {
     type: mongoose.Types.ObjectId,
     required: true
@@ -9,47 +9,50 @@ const PostSchema = mongoose.Schema({
     type: mongoose.Types.ObjectId,
     required: true
   },
-  description: {
-    type: String,
-    required: true
-  },
   time: {
     type: Date,
     required: false,
     default: new Date()
   },
-  likes: {
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  registered: {
     type: Number,
     required: false,
     default: 0
   },
-  comments: {
-    type: Array,
-    required: false,
-    default: []
-  },
   image: {
-    type:Buffer,
+    type: Buffer,
     required: false,
   }
 });
 
-PostSchema.query.byId = function(id) {
+EventSchema.query.byId = function(id) {
   return this.find({ _id: id });
 };
 
-PostSchema.query.byIds = function(ids) {
+EventSchema.query.byIds = function(ids) {
   return this.find().where("_id").in(ids);
 };
 
-PostSchema.query.byUser = function(userId) {
+EventSchema.query.byUser = function(userId) {
   return this.find({ userId });
 };
 
-PostSchema.query.byTopic = function(topicId) {
+EventSchema.query.byTopic = function(topicId) {
   return this.find({ topicId });
 };
 
-const Post = mongoose.model("Post", PostSchema);
+const Event = mongoose.model("Event", EventSchema);
 
-export default Post;
+export default Event;
