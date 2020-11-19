@@ -35,7 +35,7 @@ const PostSchema = mongoose.Schema({
 });
 
 PostSchema.query.byId = function(id) {
-  return this.find({ _id: id });
+  return this.findOne({ _id: id });
 };
 
 PostSchema.query.byIds = function(ids) {

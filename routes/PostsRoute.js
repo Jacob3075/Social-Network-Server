@@ -3,6 +3,14 @@ import express from "express";
 
 const router = express.Router();
 
-router.get("/", PostService.findAll)
+router.get("/", PostService.findAll);
+
+router.get("/id/:id", PostService.findById);
+
+router.post("/id/", PostService.findByIds);
+
+router.get("/user/:userId", PostService.findByUser);
+
+router.post("/", PostService.createPost);
 
 export default router;
