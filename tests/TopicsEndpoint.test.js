@@ -1,6 +1,6 @@
 import supertest from "supertest";
-import app from "../app";
 import { afterAll, beforeAll, describe, it } from "@jest/globals";
+import app from "../app";
 import { connectToDatabase, disconnectDatabase } from "../DataBaseConnection";
 
 const request = supertest(app);
@@ -16,13 +16,14 @@ describe("Testing Topics Endpoints", () => {
     it("Should get all topics from database", async done => {
       const response = await request.get("/topics");
 
+      console.log(response.body);
+
       expect(response.statusCode).toBe(200);
       expect(Array.isArray(response.body)).toBeTruthy();
       expect(response.body.length).toBeGreaterThanOrEqual(1);
       expect(response.body[0]).toHaveProperty("topicName");
       expect(response.body[0]).toHaveProperty("description");
       expect(response.body[0]).toHaveProperty("createdUserId");
-      console.log(response.body);
 
       done();
     });
@@ -30,11 +31,12 @@ describe("Testing Topics Endpoints", () => {
     it("Should get topic by id", async done => {
       const response = await request.get("/topics/id/5fb4ba2a2dee0d31529a82fe");
 
+      console.log(response.body);
+
       expect(response.statusCode).toBe(200);
       expect(response.body).toHaveProperty("topicName");
       expect(response.body).toHaveProperty("description");
       expect(response.body).toHaveProperty("createdUserId");
-      console.log(response.body);
 
       done();
     });
@@ -42,10 +44,11 @@ describe("Testing Topics Endpoints", () => {
     it("Should fail when finding by invalid id", async done => {
       const response = await request.get("/topics/id/123");
 
+      console.log(response.body);
+
       expect(response.statusCode).toBe(500);
       expect(response.body).toHaveProperty("message", "INTERNAL SERVER ERROR");
       expect(response.body).toHaveProperty("error");
-      console.log(response.body);
 
       done();
     });
