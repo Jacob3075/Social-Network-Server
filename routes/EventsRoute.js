@@ -5,4 +5,14 @@ const router = express.Router();
 
 router.get("/", EventService.findAll);
 
+router.get("/id/:id", EventService.findById);
+
+router.get("/user/:id", EventService.findByUser);
+
+router.get("/topic/:id", EventService.findByTopic);
+
+router.post("/id/", EventService.findByIds);
+
+router.post("/", EventService.createEvent);
+
 export default router;
