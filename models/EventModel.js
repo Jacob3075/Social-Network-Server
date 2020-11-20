@@ -46,11 +46,11 @@ EventSchema.query.byIds = function (ids) {
 };
 
 EventSchema.query.byUser = function (userId) {
-	return this.findOne({ userId });
+	return this.find({ userId });
 };
 
 EventSchema.query.byTopic = function (topicId) {
-	return this.findOne({ topicId });
+	return this.find({ topicId });
 };
 
 const Event = mongoose.model("Event", EventSchema);
