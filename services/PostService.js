@@ -53,7 +53,7 @@ export default {
 
 		await Post.create(newPost)
 			.then((result) => response.status(201).send(result))
-			.catch((error) => response.status(500).send({ message: "INTERNAL SERVER ERROR", error }));
+			.catch((error) => response.status(500).send({ message: "ERROR CREATING POST", error }));
 	},
 
 	addNewComment: async (request, response) => {

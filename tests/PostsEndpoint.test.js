@@ -19,7 +19,6 @@ describe("Testing Posts Endpoints", () => {
 			expect(response.statusCode).toBe(200);
 			expect(response.body).toBeTruthy();
 			expect(Array.isArray(response.body)).toBeTruthy();
-			expect(response.body.length).toBeGreaterThanOrEqual(1);
 			response.body.forEach((post) => {
 				expect(post).toHaveProperty("userId");
 				expect(post).toHaveProperty("topicId");
