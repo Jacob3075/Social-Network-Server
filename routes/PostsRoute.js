@@ -11,6 +11,10 @@ router.post("/id/", PostService.findByIds);
 
 router.get("/user/:userId", PostService.findByUser);
 
+router.get("/topic/:topicId", PostService.findByTopic);
+
+router.post("/comments/", PostService.addNewComment);
+
 router.post("/", PostService.createPost);
 
 export default router;
