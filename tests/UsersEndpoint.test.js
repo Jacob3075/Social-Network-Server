@@ -9,55 +9,53 @@ beforeAll(() => connectToDatabase());
 
 afterAll(() => disconnectDatabase());
 
-it("Should get all users from database", async done => {
-  const response = await request.get("/users");
+it("Should get all users from database", async (done) => {
+	const response = await request.get("/users");
 
-  console.log(response.body);
+	console.log(response.body);
 
-  expect(response.status).toBe(200);
-  expect(response.body.length).toBeGreaterThan(1);
-  expect(response.body[0]).toHaveProperty("userName");
-  expect(response.body[0]).toHaveProperty("followedTopics");
-  expect(response.body[0]).toHaveProperty("registeredEvents");
-  console.log(response.body);
+	expect(response.status).toBe(200);
+	expect(response.body.length).toBeGreaterThan(1);
+	expect(response.body[0]).toHaveProperty("userName");
+	expect(response.body[0]).toHaveProperty("followedTopics");
+	expect(response.body[0]).toHaveProperty("registeredEvents");
+	console.log(response.body);
 
-  done();
+	done();
 });
 
 describe("Update user fields", () => {
-  it("Should add new topicId to list of followed topics", async done => {
-    const topicId = "1";
-    const id = "5fb1fe18120bbf113438078c";
-    const response = await request.post("/users/follow-topic")
-      .send({ _id: id, topicId });
+	it("Should add new topicId to list of followed topics", async (done) => {
+		const topicId = "1";
+		const id = "5fb1fe18120bbf113438078c";
+		const response = await request.post("/users/follow-topic").send({ _id: id, topicId });
 
-    console.log(response.body);
+		console.log(response.body);
 
-    expect(response.status).toBe(200);
-    expect(response.body.result).toHaveProperty("_id", id);
-    expect(response.body.result).toHaveProperty("userName");
-    expect(response.body.result).toHaveProperty("followedTopics");
-    expect(response.body.result).toHaveProperty("registeredEvents");
-    // expect(response.body.result.followedTopics).toContain(topicId); // RETURNS PREVIOUS OBJECT
+		expect(response.status).toBe(200);
+		expect(response.body).toHaveProperty("_id", id);
+		expect(response.body).toHaveProperty("userName");
+		expect(response.body).toHaveProperty("followedTopics");
+		expect(response.body).toHaveProperty("registeredEvents");
+		// expect(response.body.result.followedTopics).toContain(topicId); // RETURNS PREVIOUS OBJECT
 
-    done();
-  });
+		done();
+	});
 
-  it("Should add new eventId to list of register events", async done => {
-    const eventId = "1";
-    const id = "5fb1fe18120bbf113438078c";
-    const response = await request.post("/users/register-event")
-      .send({ _id: id, eventId });
+	it("Should add new eventId to list of register events", async (done) => {
+		const eventId = "1";
+		const id = "5fb1fe18120bbf113438078c";
+		const response = await request.post("/users/register-event").send({ _id: id, eventId });
 
-    console.log(response.body);
+		console.log(response.body);
 
-    expect(response.status).toBe(200);
-    expect(response.body.result).toHaveProperty("_id", id);
-    expect(response.body.result).toHaveProperty("userName");
-    expect(response.body.result).toHaveProperty("followedTopics");
-    expect(response.body.result).toHaveProperty("registeredEvents");
-    // expect(response.body.result.registeredEvents).toContain(eventId); // RETURNS PREVIOUS OBJECT
+		expect(response.status).toBe(200);
+		expect(response.body).toHaveProperty("_id", id);
+		expect(response.body).toHaveProperty("userName");
+		expect(response.body).toHaveProperty("followedTopics");
+		expect(response.body).toHaveProperty("registeredEvents");
+		// expect(response.body.result.registeredEvents).toContain(eventId); // RETURNS PREVIOUS OBJECT
 
-    done();
-  });
+		done();
+	});
 });

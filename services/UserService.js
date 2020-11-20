@@ -77,7 +77,7 @@ export default {
       .exec()
       .then(result => {
         if (!result) return response.status(404).send({ message: "NOT FOUND", result });
-        else return response.status(200).send({ result });
+        else return response.status(200).send(result);
       })
       .catch(error => response.status(500).send({ message: "INTERNAL SERVER ERROR", error }));
   },
@@ -91,7 +91,7 @@ export default {
       .exec()
       .then(result => {
         if (!result) return response.status(404).send({ message: "NOT FOUND", result });
-        else return response.status(200).send({ result });
+        else return response.status(200).send(result);
       })
       .catch(error => response.status(500).send({ message: "INTERNAL SERVER ERROR", error }));
   },
