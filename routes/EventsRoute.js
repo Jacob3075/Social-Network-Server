@@ -17,6 +17,8 @@ router.post("/id/", EventService.findByIds);
 
 router.post("/topic/", EventService.findByTopics);
 
+router.post("/registered/", EventService.updateRegistered);
+
 router.post("/", upload.single("image"), EventService.createEvent);
 
 export default router;

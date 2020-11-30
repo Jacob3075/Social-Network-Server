@@ -51,7 +51,7 @@ EventSchema.query.byTopics = function (topicIds) {
 	return this.find({ $gte: new Date() }).where("topicId").in(topicIds);
 };
 
-EventSchema.query.updateRegistered = function (eventId) {
+EventSchema.query.incrementRegistered = function (eventId) {
 	return this.findOneAndUpdate({ _id: eventId }, { $inc: { registered: 1 } });
 };
 

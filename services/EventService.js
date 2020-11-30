@@ -86,4 +86,20 @@ export default {
 
 		unlinkSync(path);
 	},
+
+	updateRegistered: async (request, response) => {
+		const { eventId } = request.body;
+
+		await Event.find()
+			.incrementRegistered(eventId)
+			.exec()
+			.then((result) => {
+				if (result) {
+					return response.status(200).send({ message: "UPDATED", result });
+				} else {
+					return response.status(404).send({ message: "NOT FOUND", result });
+				}
+			})
+			.catch((error) => response.status(500).send({ message: "INTERNAL SERVER ERROR", error }));
+	},
 };
