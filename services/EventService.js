@@ -1,4 +1,5 @@
 import Event from "../models/EventModel";
+import { readFileSync, unlinkSync } from "fs";
 
 export default {
 	findAll: async (request, response) => {
@@ -25,6 +26,14 @@ export default {
 	findByIds: async (request, response) => {
 		await Event.find()
 			.byIds(request.body.ids)
+			.exec()
+			.then((result) => response.status(200).send(result))
+			.catch((error) => response.status(500).send({ message: "INTERNAL SERVER ERROR", error }));
+	},
+
+	findByTopics: async (request, response) => {
+		await Event.find()
+			.byTopics(request.body.topicIds)
 			.exec()
 			.then((result) => response.status(200).send(result))
 			.catch((error) => response.status(500).send({ message: "INTERNAL SERVER ERROR", error }));
@@ -60,10 +69,21 @@ export default {
 
 	createEvent: async (request, response) => {
 		const { userId, topicId, name, description, location } = request.body;
-		const newEvent = await Event({ userId, topicId, name, description, location });
+		const { path, mimetype } = request.file;
+
+		const newEvent = await Event({
+			userId,
+			topicId,
+			name,
+			description,
+			location,
+			image: { data: readFileSync(path), contentType: mimetype },
+		});
 
 		await Event.create(newEvent)
 			.then((result) => response.status(201).send(result))
 			.catch((error) => response.status(500).send({ message: "ERROR CREATING EVENT", error }));
+
+		unlinkSync(path);
 	},
 };

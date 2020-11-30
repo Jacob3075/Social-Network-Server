@@ -1,5 +1,6 @@
 import EventService from "../services/EventService";
 import express from "express";
+import { upload } from "../middlewares/ImageUpload";
 
 const router = express.Router();
 
@@ -14,6 +15,8 @@ router.get("/topic/:id", EventService.findByTopic);
 
 router.post("/id/", EventService.findByIds);
 
-router.post("/", EventService.createEvent);
+router.post("/topic/", EventService.findByTopics);
+
+router.post("/", upload.single("image"), EventService.createEvent);
 
 export default router;
