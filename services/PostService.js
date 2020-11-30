@@ -41,7 +41,19 @@ export default {
 
 	findByTopic: async (request, response) => {
 		await Post.find()
-			.byTopic()
+			.byTopic(request.params.topicId)
+			.page(request.query.pageNumber, request.query.pageSize)
+			.exec()
+			.then((result) => response.status(200).send(result))
+			.catch((error) => response.status(500).send({ message: "INTERNAL SERVER ERROR", error }));
+	},
+	findByTopics: async (request, response) => {
+		const pageNumber = parseInt(request.query.pageNumber || "1");
+		const pageSize = parseInt(request.query.pageSize || "15");
+
+		await Post.find()
+			.byTopics(request.body.topicIds)
+			.page(pageNumber, pageSize)
 			.exec()
 			.then((result) => response.status(200).send(result))
 			.catch((error) => response.status(500).send({ message: "INTERNAL SERVER ERROR", error }));
@@ -62,7 +74,7 @@ export default {
 
 		const newComment = new Comment({ userId, postId, comment });
 
-		const saveNewComment = async (savedComment) => {
+		const addCommentToPost = async (savedComment) => {
 			await Post.find()
 				.updateComments(postId, savedComment._id)
 				.exec()
@@ -79,7 +91,7 @@ export default {
 		};
 
 		await Comment.create(newComment)
-			.then(saveNewComment)
+			.then(addCommentToPost)
 			.catch((error) => response.status(500).send({ message: "ERROR CREATING COMMENT", error }));
 	},
 };

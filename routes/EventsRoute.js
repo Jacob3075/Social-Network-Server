@@ -3,6 +3,7 @@ import express from "express";
 
 const router = express.Router();
 
+// TODO: AND AUTH MIDDLEWARE
 router.get("/", EventService.findAll);
 
 router.get("/id/:id", EventService.findById);

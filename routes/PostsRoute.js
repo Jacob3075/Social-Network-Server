@@ -13,6 +13,8 @@ router.get("/user/:userId", PostService.findByUser);
 
 router.get("/topic/:topicId", PostService.findByTopic);
 
+router.post("/topic/", PostService.findByTopics);
+
 router.post("/comments/", PostService.addNewComment);
 
 router.post("/", PostService.createPost);

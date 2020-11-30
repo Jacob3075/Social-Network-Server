@@ -24,7 +24,7 @@ export default {
 
 	findByIds: async (request, response) => {
 		await Event.find()
-			.byId(request.body.ids)
+			.byIds(request.body.ids)
 			.exec()
 			.then((result) => response.status(200).send(result))
 			.catch((error) => response.status(500).send({ message: "INTERNAL SERVER ERROR", error }));

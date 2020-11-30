@@ -9,7 +9,7 @@ beforeAll(() => connectToDatabase());
 
 afterAll(() => disconnectDatabase());
 
-it("Should get all users from database", async (done) => {
+it.skip("Should get all users from database", async (done) => {
 	const response = await request.get("/users");
 
 	console.log(response.body);
@@ -24,7 +24,19 @@ it("Should get all users from database", async (done) => {
 	done();
 });
 
-describe("Update user fields", () => {
+it("Should create a new user", async (done) => {
+	const userName = "User 3";
+	const password = "123456";
+	const response = await request.post("/users/sign-up").send({ userName, password });
+
+	console.log(response.body);
+
+	expect(response.statusCode).toBe(201);
+
+	done();
+});
+
+describe.skip("Update user fields", () => {
 	it("Should add new topicId to list of followed topics", async (done) => {
 		const topicId = "1";
 		const id = "5fb1fe18120bbf113438078c";
