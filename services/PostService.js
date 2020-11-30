@@ -1,5 +1,6 @@
 import Post from "../models/PostModel";
 import Comment from "../models/CommentModel";
+import { readFileSync, unlinkSync } from "fs";
 
 export default {
 	findAll: async (request, response) => {
@@ -61,11 +62,20 @@ export default {
 
 	createPost: async (request, response) => {
 		const { userId, topicId, description } = request.body;
-		const newPost = new Post({ userId, topicId, description });
+		const { path, mimetype } = request.file;
+
+		const newPost = new Post({
+			userId,
+			topicId,
+			description,
+			image: { data: readFileSync(path), contentType: mimetype },
+		});
 
 		await Post.create(newPost)
 			.then((result) => response.status(201).send(result))
 			.catch((error) => response.status(500).send({ message: "ERROR CREATING POST", error }));
+
+		unlinkSync(path);
 	},
 
 	addNewComment: async (request, response) => {

@@ -1,5 +1,6 @@
 import PostService from "../services/PostService";
 import express from "express";
+import { upload } from "../middlewares/ImageUpload";
 
 const router = express.Router();
 
@@ -17,6 +18,6 @@ router.post("/topic/", PostService.findByTopics);
 
 router.post("/comments/", PostService.addNewComment);
 
-router.post("/", PostService.createPost);
+router.post("/", upload.single("image"), PostService.createPost);
 
 export default router;

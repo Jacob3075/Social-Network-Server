@@ -30,8 +30,8 @@ const PostSchema = mongoose.Schema(
 			default: [],
 		},
 		image: {
-			type: Buffer,
-			required: false,
+			data: Buffer,
+			contentType: String,
 		},
 	},
 	{
