@@ -19,10 +19,10 @@ const PostSchema = mongoose.Schema(
 			required: false,
 			default: new Date(),
 		},
-		likes: {
-			type: Number,
+		likedUsers: {
+			type: Array,
 			required: false,
-			default: 0,
+			default: [],
 		},
 		comments: {
 			type: Array,
@@ -61,6 +61,10 @@ PostSchema.query.byTopics = function (topicIds) {
 
 PostSchema.query.updateComments = function (postId, commentId) {
 	return this.findOneAndUpdate({ _id: postId }, { $addToSet: { comments: commentId } });
+};
+
+PostSchema.query.updateLikedUsers = function (postId, userId) {
+	return this.findOneAndUpdate({ _id: postId }, { $addToSet: { likedUsers: userId } });
 };
 
 PostSchema.query.page = function (pageNumber, pageSize) {

@@ -18,6 +18,8 @@ router.post("/topic/", PostService.findByTopics);
 
 router.post("/comments/", PostService.addNewComment);
 
+router.post("/likes/", PostService.updateLikes);
+
 router.post("/", upload.single("image"), PostService.createPost);
 
 export default router;

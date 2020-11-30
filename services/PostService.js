@@ -104,4 +104,21 @@ export default {
 			.then(addCommentToPost)
 			.catch((error) => response.status(500).send({ message: "ERROR CREATING COMMENT", error }));
 	},
+
+	updateLikes: async (request, response) => {
+		const { userId } = request.body.tokenData || request.body;
+		const { postId } = request.body;
+
+		await Post.find()
+			.updateLikedUsers(postId, userId)
+			.exec()
+			.then((result) => {
+				if (result) {
+					return response.status(200).send(result);
+				} else {
+					return response.status(404).send({ message: "NOT FOUND", result });
+				}
+			})
+			.catch((error) => response.status(500).send({ message: "INTERNAL SERVER ERROR", error }));
+	},
 };
