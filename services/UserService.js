@@ -56,13 +56,12 @@ export default {
 
     await User.findOne()
       .byUserName(body.userName)
-      .select("userName followedTopics registeredEvents")
       .exec()
       .then(userFromDatabase => {
         if (!userFromDatabase) return response.status(404).send({ message: "INVALID USERNAME AND PASSWORD" });
 
         if (userFromDatabase.validatePassword(body.password)) {
-          return response.status(200).send({ message: "LOGGED IN", token: userFromDatabase.getAuthToken() });
+          return response.status(200).send({ message: "LOGGED IN", token: userFromDatabase.getAuthToken(), userId: userFromDatabase._id });
         } else return response.status(401).send({ message: "INVALID USERNAME AND PASSWORD" });
       })
       .catch(error => response.status(500).send({ message: "INTERNAL SERVER ERROR", error: error }));
