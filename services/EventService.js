@@ -68,7 +68,7 @@ export default {
 	},
 
 	createEvent: async (request, response) => {
-		const { userId, topicId, name, description, location } = request.body;
+		const { userId, topicId, name, description, location, time } = request.body;
 		const { path, mimetype } = request.file;
 
 		const newEvent = await Event({
@@ -77,6 +77,7 @@ export default {
 			name,
 			description,
 			location,
+      time,
 			image: { data: readFileSync(path), contentType: mimetype },
 		});
 

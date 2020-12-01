@@ -97,9 +97,9 @@ describe("Testing Topics Endpoints", () => {
 
 	describe("Create topic", () => {
 		it("Should create topic", async (done) => {
-			const topicName = "Topic 2";
+			const topicName = "Topic 4";
 			const description = "Description";
-			const createdUserId = "5fc49e90fad5b20f40a4f5c0";
+			const createdUserId = "5fc49eae0bb6be0fa947b6f1";
 
 			const response = await request
 				.post("/topics/")

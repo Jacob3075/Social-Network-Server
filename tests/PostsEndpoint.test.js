@@ -109,56 +109,57 @@ describe("Testing Posts Endpoints", () => {
 
 			done();
 		});
-	});
 
-	it("Should get posts by topic ids", async (done) => {
-		const topicIds = ["5fc49f14a45bfa10ac449a1c"];
+		it("Should get posts by topic ids", async (done) => {
+			const topicIds = ["5fc49f14a45bfa10ac449a1c"];
 
-		const response = await request.post("/posts/topic").send({ topicIds });
+			const response = await request.post("/posts/topic").send({ topicIds });
 
-		console.log(response.body);
+			console.log(response.body);
 
-		expect(response.statusCode).toBe(200);
-		expect(response.body).toBeTruthy();
-		expect(Array.isArray(response.body)).toBeTruthy();
-		expect(response.body.length).toBeLessThanOrEqual(15);
-		response.body.forEach((post) => {
-			expect(post).toHaveProperty("userId");
-			expect(post).toHaveProperty("topicId");
-			expect(post).toHaveProperty("description");
+			expect(response.statusCode).toBe(200);
+			expect(response.body).toBeTruthy();
+			expect(Array.isArray(response.body)).toBeTruthy();
+			expect(response.body.length).toBeLessThanOrEqual(15);
+			response.body.forEach((post) => {
+				expect(post).toHaveProperty("userId");
+				expect(post).toHaveProperty("topicId");
+				expect(post).toHaveProperty("description");
+			});
+
+			done();
 		});
 
-		done();
-	});
+		it("Should get posts by topic ids with pagination", async (done) => {
+			const topicIds = ["5fc49f14a45bfa10ac449a1c", "5fc49f7045e98411d8bb3d77"];
+			const pageNumber = 1;
+			const pageSize = 2;
 
-	it("Should get posts by topic ids with pagination", async (done) => {
-		const topicIds = ["5fc49f14a45bfa10ac449a1c", "5fc49f7045e98411d8bb3d77"];
-		const pageNumber = 1;
-		const pageSize = 2;
+			const response = await request
+				.post(`/posts/topic?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+				.send({ topicIds });
 
-		const response = await request
-			.post(`/posts/topic?pageNumber=${pageNumber}&pageSize=${pageSize}`)
-			.send({ topicIds });
+			console.log(response.body);
 
-		console.log(response.body);
+			expect(response.statusCode).toBe(200);
+			expect(response.body).toBeTruthy();
+			expect(Array.isArray(response.body)).toBeTruthy();
+			expect(response.body.length).toBe(pageSize);
+			response.body.forEach((post) => {
+				expect(post).toHaveProperty("userId");
+				expect(post).toHaveProperty("topicId");
+				expect(post).toHaveProperty("description");
+			});
 
-		expect(response.statusCode).toBe(200);
-		expect(response.body).toBeTruthy();
-		expect(Array.isArray(response.body)).toBeTruthy();
-		expect(response.body.length).toBe(pageSize);
-		response.body.forEach((post) => {
-			expect(post).toHaveProperty("userId");
-			expect(post).toHaveProperty("topicId");
-			expect(post).toHaveProperty("description");
+			done();
 		});
 
-		done();
 	});
 
 	describe("Create Post", () => {
 		it("Should create a post", async (done) => {
-			const userId = "5fc49ea94c87160f804ea6f8";
-			const topicId = "5fc49f7045e98411d8bb3d77";
+			const userId = "5fc49e90fad5b20f40a4f5c0";
+			const topicId = "5fc49f14a45bfa10ac449a1c";
 			const description = "Description";
 
 			const response = await request.post("/posts").send({ userId, topicId, description });
