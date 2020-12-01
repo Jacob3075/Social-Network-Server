@@ -14,10 +14,9 @@ router.post("/sign-up", UserService.signUp);
 
 router.post("/sign-in", UserService.signIn);
 
-// TODO: AND AUTH MIDDLEWARE
-router.post("/follow-topic", UserService.addNewFollowedTopic);
+router.post("/follow-topic", checkAuthorization, UserService.addNewFollowedTopic);
 
-router.post("/register-event", UserService.addNewRegisteredEvent);
+router.post("/register-event", checkAuthorization, UserService.addNewRegisteredEvent);
 
 router.delete("/:id", checkAuthorization, UserService.deleteById);
 

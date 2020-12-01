@@ -46,10 +46,10 @@ it("Should sign in with valid user", async done => {
   done();
 });
 
-describe.skip("Update user fields", () => {
+describe("Update user fields", () => {
   it("Should add new topicId to list of followed topics", async (done) => {
-    const topicId = "1";
-    const id = "5fb1fe18120bbf113438078c";
+    const topicId = "5fc49f14a45bfa10ac449a1c";
+    const id = "5fc49e90fad5b20f40a4f5c0";
     const response = await request.post("/users/follow-topic").send({ _id: id, topicId });
 
     console.log(response.body);
