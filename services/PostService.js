@@ -48,6 +48,7 @@ export default {
 			.then((result) => response.status(200).send(result))
 			.catch((error) => response.status(500).send({ message: "INTERNAL SERVER ERROR", error }));
 	},
+
 	findByTopics: async (request, response) => {
 		const pageNumber = parseInt(request.query.pageNumber || "1");
 		const pageSize = parseInt(request.query.pageSize || "15");
@@ -68,7 +69,7 @@ export default {
 			userId,
 			topicId,
 			description,
-			image: { data: readFileSync(path), contentType: mimetype },
+			image: { data: readFileSync(path), contentType: mimetype }
 		});
 
 		await Post.create(newPost)
@@ -108,9 +109,10 @@ export default {
 	updateLikes: async (request, response) => {
 		const { userId } = request.body.tokenData || request.body;
 		const { postId } = request.body;
+		const unLike = request.query.unLike;
 
 		await Post.find()
-			.updateLikedUsers(postId, userId)
+			.updateLikedUsers(postId, userId, !!unLike)
 			.exec()
 			.then((result) => {
 				if (result) {
@@ -120,5 +122,5 @@ export default {
 				}
 			})
 			.catch((error) => response.status(500).send({ message: "INTERNAL SERVER ERROR", error }));
-	},
+	}
 };
