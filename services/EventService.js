@@ -1,5 +1,4 @@
 import Event from "../models/EventModel";
-import { readFileSync, unlinkSync } from "fs";
 
 export default {
 	findAll: async (request, response) => {
@@ -69,7 +68,6 @@ export default {
 
 	createEvent: async (request, response) => {
 		const { userId, topicId, name, description, location, time } = request.body;
-		const { path, mimetype } = request.file;
 
 		const newEvent = await Event({
 			userId,
@@ -78,14 +76,12 @@ export default {
 			description,
 			location,
       time,
-			image: { data: readFileSync(path), contentType: mimetype },
 		});
 
 		await Event.create(newEvent)
 			.then((result) => response.status(201).send(result))
 			.catch((error) => response.status(500).send({ message: "ERROR CREATING EVENT", error }));
 
-		unlinkSync(path);
 	},
 
 	updateRegistered: async (request, response) => {

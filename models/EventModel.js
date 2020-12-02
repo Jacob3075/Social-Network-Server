@@ -31,10 +31,6 @@ const EventSchema = mongoose.Schema(
 			required: false,
 			default: 0,
 		},
-		image: {
-			data: Buffer,
-			contentType: String,
-		},
 	},
 	{ timestamp: true }
 );
