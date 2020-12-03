@@ -41,9 +41,13 @@ export default {
 	},
 
 	findByTopic: async (request, response) => {
+		const { topicId } = request.params;
+		const pageNumber = parseInt(request.query.pageNumber || "1");
+		const pageSize = parseInt(request.query.pageSize || "15");
+
 		await Post.find()
-			.byTopic(request.params.topicId)
-			.page(request.query.pageNumber, request.query.pageSize)
+			.byTopic(topicId)
+			.page(pageNumber, pageSize)
 			.exec()
 			.then((result) => response.status(200).send(result))
 			.catch((error) => response.status(500).send({ message: "INTERNAL SERVER ERROR", error }));
