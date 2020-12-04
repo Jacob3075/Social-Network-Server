@@ -77,7 +77,7 @@ export default {
       .then((result) => response.status(201).send(result))
       .catch((error) => response.status(500).send({ message: "ERROR CREATING POST", error }));
 
-    unlinkSync(path);
+    // unlinkSync(path);
   },
 
   addNewComment: async (request, response) => {
