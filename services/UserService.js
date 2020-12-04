@@ -11,8 +11,10 @@ export default {
   },
 
   findByUserName: async (request, response) => {
+    const { userName } = request.params;
+
     await User.findOne()
-      .byUserName(request.params.userName)
+      .byUserName(userName)
       .select("userName followedTopics registeredEvents")
       .exec()
       .then(result => {
@@ -23,8 +25,10 @@ export default {
   },
 
   findById: async (request, response) => {
+    const { id } = request.params;
+
     await User.findOne()
-      .byId(request.params.id)
+      .byId(id)
       .select("userName followedTopics registeredEvents")
       .exec()
       .then(result => {
@@ -38,8 +42,6 @@ export default {
     const { body } = request;
     const { userName, password } = body;
 
-    console.log(userName, password);
-
     const newUser = new User({ userName, password: User.generateHash(password) });
 
     await User.create(newUser)
@@ -52,15 +54,15 @@ export default {
   },
 
   signIn: async (request, response) => {
-    const { body } = request;
+    const { body: { password, userName } } = request;
 
     await User.findOne()
-      .byUserName(body.userName)
+      .byUserName(userName)
       .exec()
       .then(userFromDatabase => {
         if (!userFromDatabase) return response.status(404).send({ message: "INVALID USERNAME AND PASSWORD" });
 
-        if (userFromDatabase.validatePassword(body.password)) {
+        if (userFromDatabase.validatePassword(password)) {
           return response.status(200).send({
             message: "LOGGED IN",
             token: userFromDatabase.getAuthToken(),
@@ -77,9 +79,10 @@ export default {
 
   addNewFollowedTopic: async (request, response) => {
     const { _id } = request.body.tokenData || request.body;
+    const { topicId } = request.body;
 
     await User.find()
-      .updateFollowedTopics(_id, request.body.topicId)
+      .updateFollowedTopics(_id, topicId)
       .select("userName followedTopics registeredEvents")
       .exec()
       .then(result => {
@@ -90,10 +93,14 @@ export default {
   },
 
   addNewRegisteredEvent: async (request, response) => {
-    const { _id } = request.body.tokenData || request.body;
+    const { id } = request.tokenData || request.body;
+    const { eventId } = request.body;
+    const unRegister = request.query.unRegister;
+    console.log(request.tokenData);
+    console.log(eventId);
 
     await User.find()
-      .updateRegisteredEvents(_id, request.body.eventId)
+      .updateRegisteredEvents(id, eventId, unRegister)
       .select("userName followedTopics registeredEvents")
       .exec()
       .then(result => {

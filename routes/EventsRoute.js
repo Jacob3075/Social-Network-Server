@@ -15,7 +15,7 @@ router.post("/id/", EventService.findByIds);
 
 router.post("/topic/", EventService.findByTopics);
 
-router.post("/registered/", EventService.updateRegistered);
+router.post("/register/", EventService.updateRegistered);
 
 router.post("/", EventService.createEvent);
 

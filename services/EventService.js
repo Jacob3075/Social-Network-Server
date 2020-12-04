@@ -86,9 +86,10 @@ export default {
 
 	updateRegistered: async (request, response) => {
 		const { eventId } = request.body;
+		const unRegister = request.query.unRegister;
 
 		await Event.find()
-			.incrementRegistered(eventId)
+			.updateRegistered(eventId, !!unRegister)
 			.exec()
 			.then((result) => {
 				if (result) {
