@@ -24,8 +24,7 @@ const PostSchema = mongoose.Schema(
     },
     time: {
       type: Date,
-      required: false,
-      default: new Date()
+      required: true,
     },
     likedUsers: {
       type: Array,

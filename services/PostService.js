@@ -60,7 +60,7 @@ export default {
   },
 
   createPost: async (request, response) => {
-    const { userId, topicId, description, userName, topicName } = request.body;
+    const { userId, topicId, description, userName, topicName, time } = request.body;
     const { path, mimetype } = request.file;
 
     const newPost = new Post({
@@ -69,6 +69,7 @@ export default {
       description,
       userName,
       topicName,
+      time,
       image: { data: readFileSync(path), contentType: mimetype }
     });
 
@@ -81,9 +82,9 @@ export default {
 
   addNewComment: async (request, response) => {
     const { userId } = request.body.tokenData || request.body;
-    const { comment, postId, userName } = request.body;
+    const { comment, postId, userName, time } = request.body;
 
-    const newComment = new Comment({ userId, postId, comment, userName });
+    const newComment = new Comment({ userId, postId, comment, userName, time });
 
     const addCommentToPost = async (savedComment) => {
       await Post.find()
