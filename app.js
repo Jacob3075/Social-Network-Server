@@ -7,6 +7,7 @@ import postRouter from "./routes/PostsRoute";
 import eventsRouter from "./routes/EventsRoute";
 import cors from "cors";
 import { connectToDatabase } from "./DataBaseConnection";
+import checkAuthorization from "./middlewares/Authorization";
 
 const app = express();
 
@@ -18,8 +19,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/users", usersRouter);
-app.use("/topics", topicsRouter);
-app.use("/events", eventsRouter);
-app.use("/posts", postRouter);
+app.use("/topics", checkAuthorization, topicsRouter);
+app.use("/events", checkAuthorization, eventsRouter);
+app.use("/posts", checkAuthorization, postRouter);
 
 export default app;
