@@ -71,12 +71,6 @@ PostSchema.query.updateLikedUsers = function(postId, userId, unLike) {
 	}
 };
 
-PostSchema.query.page = function(pageNumber, pageSize) {
-	return this.sort({ createdAt: "desc" })
-		.limit(pageSize)
-		.skip((pageNumber - 1) * pageSize);
-};
-
 const Post = mongoose.model("Post", PostSchema);
 
 export default Post;
