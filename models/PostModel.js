@@ -59,8 +59,8 @@ PostSchema.query.byTopics = function(topicIds) {
 	return this.find().where("topicId").in(topicIds);
 };
 
-PostSchema.query.updateComments = function(postId, commentId) {
-	return this.findOneAndUpdate({ _id: postId }, { $addToSet: { comments: commentId } });
+PostSchema.query.updateComments = function(postId, comment) {
+	return this.findOneAndUpdate({ _id: postId }, { $addToSet: { comments: comment } });
 };
 
 PostSchema.query.updateLikedUsers = function(postId, userId, unLike) {
