@@ -79,10 +79,11 @@ export default {
 
   addNewFollowedTopic: async (request, response) => {
     const { _id } = request.body.tokenData || request.body;
+    const unFollow = request.query.unFollow;
     const { topicId } = request.body;
 
     await User.find()
-      .updateFollowedTopics(_id, topicId)
+      .updateFollowedTopics(_id, topicId, !!unFollow)
       .select("userName followedTopics registeredEvents")
       .exec()
       .then(result => {
@@ -96,11 +97,9 @@ export default {
     const { id } = request.tokenData || request.body;
     const { eventId } = request.body;
     const unRegister = request.query.unRegister;
-    console.log(request.tokenData);
-    console.log(eventId);
 
     await User.find()
-      .updateRegisteredEvents(id, eventId, unRegister)
+      .updateRegisteredEvents(id, eventId, !!unRegister)
       .select("userName followedTopics registeredEvents")
       .exec()
       .then(result => {

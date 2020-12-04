@@ -43,8 +43,12 @@ UserSchema.methods.getAuthToken = function() {
   );
 };
 
-UserSchema.query.updateFollowedTopics = function(id, topicId) {
-  return this.findOneAndUpdate({ _id: id }, { $addToSet: { followedTopics: topicId } });
+UserSchema.query.updateFollowedTopics = function(id, topicId, unRegister) {
+  if (unRegister) {
+    return this.findOneAndUpdate({ _id: id }, { $pull: { followedTopics: topicId } });
+  } else {
+    return this.findOneAndUpdate({ _id: id }, { $addToSet: { followedTopics: topicId } });
+  }
 };
 
 UserSchema.query.updateRegisteredEvents = function(id, eventId, unRegister) {
