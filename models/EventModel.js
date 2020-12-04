@@ -6,10 +6,12 @@ const EventSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       required: true
     },
+    userName: String,
     topicId: {
       type: mongoose.Types.ObjectId,
       required: true
     },
+    topicName: String,
     time: {
       type: Date,
       required: true
@@ -41,9 +43,9 @@ EventSchema.query.byId = function(id) {
 
 EventSchema.query.byIds = function(ids) {
   return this.find({
-    // time: {
-    //   $gte: new Date()
-    // }
+    time: {
+      $gte: new Date()
+    }
   }).where("_id").in(ids);
 };
 

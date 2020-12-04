@@ -5,6 +5,7 @@ const CommentSchema = mongoose.Schema({
     type: mongoose.Types.ObjectId,
     required: true,
   },
+  userName:String,
   postId:{
     type: mongoose.Types.ObjectId,
     required: true,
